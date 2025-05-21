@@ -89,7 +89,7 @@
             </form>
             {% if qr_file is defined and qr_file is not none and qr_file is string %}
                 <div class="image">
-                    <img src="{{ url_for('static', filename=qr_file.split('/')[-1]) }}" alt="QR Code">
+                    <img src="{{ url_for('/tmp/static', filename=qr_file.split('/')[-1]) }}" alt="QR Code">
                     <br>
                     <a href="{{ url_for('download', filename=qr_file.split('/')[-1]) }}">Download QR Code</a>
                 </div>
@@ -105,7 +105,7 @@
             </form>
             {% if barcode_file is defined and barcode_file is not none and barcode_file is string %}
                 <div class="image">
-                    <img src="{{ url_for('static', filename=barcode_file.split('/')[-1] + '.png') }}" alt="Barcode">
+                    <img src="{{ url_for('/tmp/static', filename=barcode_file.split('/')[-1] + '.png') }}" alt="Barcode">
                     <br>
                     <a href="{{ url_for('download', filename=barcode_file.split('/')[-1] + '.png') }}">Download Barcode</a>
                 </div>
