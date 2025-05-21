@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureScan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="file"] {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .image {
+            text-align: center;
+            margin-top: 10px;
+        }
+        img {
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>SecureScan</h1>
+    <div class="container">
+        <!-- Scan a Code -->
+        <div class="section">
+            <h2>Scan a Code</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Scan</button>
+            </form>
+            {% if result %}
+                <div class="result">
+                    <p>{{ result }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Generate QR Code -->
+        <div class="section">
+            <h2>Generate QR Code</h2>
+            <form method="POST">
+                <input type="text" name="qr_data" placeholder="Enter QR data">
+                <button type="submit" name="generate_qr">Generate</button>
+            </form>
+            {% if qr_file is defined and qr_file is not none and qr_file is string %}
+                <div class="image">
+                    <img src="{{ url_for('static', filename=qr_file.split('/')[-1]) }}" alt="QR Code">
+                    <br>
+                    <a href="{{ url_for('download', filename=qr_file.split('/')[-1]) }}">Download QR Code</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Generate Barcode -->
+        <div class="section">
+            <h2>Generate Barcode</h2>
+            <form method="POST">
+                <input type="text" name="barcode_data" placeholder="Enter Barcode data">
+                <button type="submit" name="generate_barcode">Generate</button>
+            </form>
+            {% if barcode_file is defined and barcode_file is not none and barcode_file is string %}
+                <div class="image">
+                    <img src="{{ url_for('static', filename=barcode_file.split('/')[-1] + '.png') }}" alt="Barcode">
+                    <br>
+                    <a href="{{ url_for('download', filename=barcode_file.split('/')[-1] + '.png') }}">Download Barcode</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Display Errors -->
+        {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
