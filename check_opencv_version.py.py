@@ -64,7 +64,7 @@ def detect_fake(data):
         return f"Error: {str(e)}"
 
 # Generate QR Code
-def generate_qr(data, filename='/tmp/static/qrcode.png'):
+def generate_qr(data, filename='static/qrcode.png'):
     print(f"Generating QR code with data: {data}")
     try:
         os.makedirs(os.path.dirname(filename), exist_ok=True)
@@ -80,7 +80,7 @@ def generate_qr(data, filename='/tmp/static/qrcode.png'):
         return None
 
 # Generate Barcode
-def generate_barcode(data, filename='/tmp/static/barcode'):
+def generate_barcode(data, filename='static/barcode'):
     print(f"Generating barcode with data: {data}")
     if len(data) > 80:
         print("Warning: Data too long for reliable barcode scanning.")
@@ -114,7 +114,7 @@ def index():
                 print("Error: Uploaded file is not a supported image format.")
                 error = "Error: Please upload a PNG, JPG, or JPEG image."
             else:
-                file_path = '/tmp/static/uploaded.png'
+                file_path = 'static/uploaded.png'
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
                 file.save(file_path)
                 print(f"Image saved to: {file_path}")
@@ -153,10 +153,10 @@ def index():
 @app.route('/download/<filename>')
 def download(filename):
     print(f"Serving file: {filename}")
-    if not os.path.exists(os.path.join('/tmp/static', filename)):
+    if not os.path.exists(os.path.join('static', filename)):
         print(f"Error: File {filename} does not exist in static folder.")
         return "File not found", 404
-    return send_from_directory('/tmp/static', filename)
+    return send_from_directory('static', filename)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
